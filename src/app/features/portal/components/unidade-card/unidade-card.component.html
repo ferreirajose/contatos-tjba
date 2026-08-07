@@ -1,0 +1,57 @@
+<article class="unidade-card" [attr.aria-label]="'Unidade ' + unidade().nome">
+  <header class="unidade-card__header">
+    <h3 class="unidade-card__comarca">{{ labelComarca(unidade().comarca) }}</h3>
+  </header>
+
+  <div class="unidade-card__body">
+    <h4 class="unidade-card__nome">{{ unidade().nome }}</h4>
+
+    <ul class="unidade-card__info">
+      <li>
+        <i class="pi pi-phone" aria-hidden="true"></i>
+        <span class="sr-only">Telefone:</span>
+        <a [href]="'tel:' + unidade().telefone">{{ unidade().telefone }}</a>
+      </li>
+      <li>
+        <i class="pi pi-envelope" aria-hidden="true"></i>
+        <span class="sr-only">Email:</span>
+        <a [href]="'mailto:' + unidade().email">{{ unidade().email }}</a>
+      </li>
+      <li>
+        <i class="pi pi-map-marker" aria-hidden="true"></i>
+        <span class="sr-only">Endereço:</span>
+        <span>
+          {{ unidade().endereco.logradouro }}<br />
+          CEP: {{ unidade().endereco.cep }}
+        </span>
+      </li>
+      <li>
+        <i class="pi pi-clock" aria-hidden="true"></i>
+        <span>Funcionamento: {{ unidade().funcionamento }}</span>
+      </li>
+      <li>
+        <i class="pi pi-user" aria-hidden="true"></i>
+        <span>Magistrado responsável: {{ unidade().magistradoResponsavel }}</span>
+      </li>
+    </ul>
+
+    <div class="unidade-card__actions">
+      <a
+        class="unidade-card__button"
+        [href]="unidade().balcaoVirtualUrl"
+        target="_blank"
+        rel="noopener"
+      >
+        Acessar Balcão Virtual
+      </a>
+      <a
+        class="unidade-card__link"
+        [href]="unidade().agendaMagistradoUrl"
+        target="_blank"
+        rel="noopener"
+      >
+        Agendar com Magistrado
+      </a>
+    </div>
+  </div>
+</article>

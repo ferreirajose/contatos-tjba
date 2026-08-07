@@ -1,0 +1,47 @@
+<header class="app-header" role="banner">
+  <div class="app-header__inner">
+    <a class="app-header__brand" href="/" aria-label="Portal de Contatos TJBA - página inicial">
+      <img
+        src="/logotipo_TJBA.png"
+        alt="Poder Judiciário do Estado da Bahia"
+        class="app-header__brand-logo"
+      />
+    </a>
+
+    <button
+      type="button"
+      class="app-header__toggle"
+      [attr.aria-expanded]="menuOpen"
+      [attr.aria-controls]="menuId"
+      aria-label="Abrir menu de navegação"
+      (click)="toggleMenu()"
+    >
+      <i class="pi pi-bars" aria-hidden="true"></i>
+    </button>
+
+    <nav
+      class="app-header__nav"
+      [id]="menuId"
+      [class.app-header__nav--open]="menuOpen"
+      aria-label="Navegação principal"
+    >
+      <button
+        type="button"
+        class="app-header__close"
+        aria-label="Fechar menu de navegação"
+        (click)="closeMenu()"
+      >
+        <i class="pi pi-times" aria-hidden="true"></i>
+      </button>
+      <ul class="app-header__menu">
+        @for (item of menuItems; track item.label) {
+          <li>
+            <a class="app-header__link" [href]="item.href" (click)="closeMenu()">
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

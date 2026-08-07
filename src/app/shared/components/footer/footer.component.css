@@ -1,0 +1,11 @@
+.app-footer {
+  background: var(--tjba-navy);
+  color: #ffffff;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.app-footer__text {
+  margin: 0;
+  font-size: 0.9rem;
+}

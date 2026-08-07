@@ -1,0 +1,131 @@
+.consulta {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.consulta__title {
+  margin: 0 0 1rem;
+  color: var(--tjba-blue);
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.consulta__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.consulta__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.consulta__fieldset::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.consulta__legend {
+  float: left;
+  padding: 0;
+  margin-right: 0.75rem;
+  font-size: 18px;
+  color: #4b5563;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.consulta__options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.consulta__option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 18px;
+  color: #374151;
+}
+
+.consulta__option label {
+  cursor: pointer;
+}
+
+.consulta__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.consulta__field-label {
+  font-size: 18px;
+  color: #6b7280;
+}
+
+.consulta__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.consulta__hint {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.consulta__submit {
+  background: var(--tjba-blue) !important;
+  border: none !important;
+  padding: 0.65rem 1.75rem !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  border-radius: 6px !important;
+}
+
+@media (max-width: 991px) {
+  .consulta {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .consulta__hint {
+    display: none;
+  }
+
+  .consulta__legend {
+    float: none;
+    display: block;
+    margin: 0 0 0.5rem;
+    font-size: 16px;
+  }
+
+  .consulta__options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 0.75rem;
+  }
+
+  .consulta__option {
+    font-size: 15px;
+    min-width: 0;
+  }
+}
+
+
+/* Estilos globais dos form controls estão em src/styles.css */

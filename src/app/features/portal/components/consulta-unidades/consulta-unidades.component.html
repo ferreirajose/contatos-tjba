@@ -1,0 +1,85 @@
+<section class="consulta" aria-labelledby="consulta-title">
+  <h2 id="consulta-title" class="consulta__title">Consulta das Unidades</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="consulta__form">
+    <fieldset class="consulta__fieldset">
+      <legend class="consulta__legend">Áreas de interesse:</legend>
+      <div class="consulta__options">
+        @for (area of areas; track area.value) {
+          <div class="consulta__option">
+            <p-radiobutton
+              inputId="area-{{ area.value }}"
+              [value]="area.value"
+              formControlName="area"
+            />
+            <label [attr.for]="'area-' + area.value">{{ area.label }}</label>
+          </div>
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="consulta__fieldset">
+      <legend class="consulta__legend">Localidade:</legend>
+      <div class="consulta__options">
+        @for (loc of localidades; track loc.value) {
+          <div class="consulta__option">
+            <p-radiobutton
+              inputId="loc-{{ loc.value }}"
+              [value]="loc.value"
+              formControlName="localidade"
+            />
+            <label [attr.for]="'loc-' + loc.value">{{ loc.label }}</label>
+          </div>
+        }
+      </div>
+    </fieldset>
+
+    <div class="consulta__field">
+      <p-floatlabel class="consulta__floatlabel" variant="on">
+        <p-autoComplete
+          inputId="comarca-select"
+          formControlName="comarca"
+          [suggestions]="comarcasSugestoes"
+          (completeMethod)="filtrarComarcas($event)"
+          optionLabel="nome"
+          placeholder="Selecione a Comarca"
+          [dropdown]="true"
+          [forceSelection]="true"
+          appendTo="body"
+          styleClass="w-full"
+        />
+        <label for="comarca-select">Comarca</label>
+      </p-floatlabel>
+    </div>
+
+    <div class="consulta__field">
+      <p-floatlabel class="consulta__floatlabel" variant="on">
+        <p-autoComplete
+          inputId="unidade-select"
+          formControlName="unidade"
+          [suggestions]="unidadesSugestoes"
+          (completeMethod)="filtrarUnidades($event)"
+          optionLabel="nome"
+          placeholder="Selecione a Unidade"
+          [dropdown]="true"
+          [forceSelection]="true"
+          appendTo="body"
+          styleClass="w-full"
+        />
+        <label for="unidade-select">Unidade</label>
+      </p-floatlabel>
+    </div>
+
+    <div class="consulta__footer">
+      <p class="consulta__hint">
+        Utilize os filtros e encontre a unidade que mais lhe atenda, junto ao Poder Judiciário da Bahia.
+      </p>
+      <button
+        type="submit"
+        pButton
+        label="Consultar"
+        class="consulta__submit"
+      ></button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,151 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
+
+:root {
+  --tjba-blue: #1a56db;
+  --tjba-blue-dark: #1e40af;
+  --tjba-navy: #0b2a4a;
+  --tjba-green: #1e6f3d;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1f2937;
+  background: #ffffff;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--tjba-blue);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   PrimeNG form controls — global theming
+   Applied here (not via ::ng-deep) so it survives component encapsulation
+   and PrimeNG 21's design-token styling.
+   ========================================================================== */
+:root {
+  --p-inputtext-border-color: #cdd5e1;
+  --p-inputtext-border-radius: 4px;
+  --p-inputtext-shadow: 0px 2px 5px 0px #cacaca4d;
+  --p-select-border-color: #cdd5e1;
+  --p-select-border-radius: 4px;
+  --p-select-shadow: 0px 2px 5px 0px #cacaca4d;
+  --p-autocomplete-border-color: #cdd5e1;
+  --p-autocomplete-border-radius: 4px;
+  --p-autocomplete-shadow: 0px 2px 5px 0px #cacaca4d;
+  --p-autocomplete-dropdown-border-color: #cdd5e1;
+}
+
+.p-inputtext,
+.p-calendar .p-inputtext,
+.p-autocomplete .p-autocomplete-input,
+.p-autocomplete-input,
+.p-select,
+.p-dropdown {
+  height: 53px !important;
+  border: 1px solid #cdd5e1 !important;
+  border-radius: 4px !important;
+  box-shadow: 0px 2px 5px 0px #cacaca4d !important;
+  font-size: 18px;
+}
+
+/* Dropdown button (chevron) sitting next to the autocomplete input */
+.p-autocomplete .p-autocomplete-dropdown {
+  height: 53px !important;
+  border: 1px solid #cdd5e1 !important;
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* When the autocomplete has a dropdown, keep the input's right side flush */
+.p-autocomplete:has(.p-autocomplete-dropdown) .p-autocomplete-input {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.p-select .p-select-label,
+.p-autocomplete .p-autocomplete-input {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  font-size: 18px;
+}
+
+.p-floatlabel label,
+.p-float-label label {
+  font-size: 0.875rem;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+
+/* Placeholder aparece apenas no foco — para que o label do p-floatlabel
+   ocupe visualmente o interior do campo quando ele não está focado. */
+input::placeholder,
+textarea::placeholder {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  opacity: 1;
+}
+
+/* p-select e p-autocomplete usam .p-*-label internamente para o placeholder */
+.p-select .p-select-label.p-placeholder,
+.p-autocomplete .p-autocomplete-input::placeholder {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.p-select.p-focus .p-select-label.p-placeholder,
+.p-autocomplete .p-autocomplete-input:focus::placeholder {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   p-floatlabel variant="on" — animação de transição
+   Por padrão o PrimeNG faz o label subir imediatamente quando o input tem
+   atributo [placeholder]. Sobrescrevemos para que o label só flutue nos
+   estados de foco, preenchimento ou autofill — permitindo a animação.
+   ========================================================================== */
+.p-floatlabel-on:has(input[placeholder]):not(:has(input:focus)):not(:has(input.p-filled)):not(:has(input:-webkit-autofill)):not(:has(.p-inputwrapper-focus)):not(:has(.p-inputwrapper-filled)) label,
+.p-floatlabel-on:has(textarea[placeholder]):not(:has(textarea:focus)):not(:has(textarea.p-filled)) label {
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.p-floatlabel-on label {
+  font-size: 0.875rem;
+  transition:
+    top 0.2s ease,
+    transform 0.2s ease,
+    font-size 0.2s ease,
+    padding 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+:root .p-floatlabel:has(input:focus) label,
+:root .p-floatlabel:has(textarea:focus) label,
+:root .p-floatlabel:has(.p-inputwrapper-focus) label {
+  color: #1976d2 !important;
+}
+
+.p-radiobutton-checked .p-radiobutton-box {
+  border-color: #000 !important;
+  background: #000 !important;
+}

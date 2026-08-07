@@ -1,0 +1,86 @@
+<section class="portal-banner" aria-labelledby="portal-banner-title">
+  <div class="grid grid-nogutter portal-banner__grid">
+    <div class="col-12 lg:col-6 portal-banner__left">
+      <div class="portal-banner__overlay">
+        <h1 id="portal-banner-title" class="portal-banner__title">
+          Bem-vindo ao Portal<br />de Contatos do TJBA
+        </h1>
+      </div>
+    </div>
+
+    <div class="col-12 lg:col-6 portal-banner__right">
+      <div class="portal-banner__forms">
+        <app-pesquisa-geral (termoChange)="onTermoChange($event)" />
+        <button
+          type="button"
+          class="portal-banner__toggle"
+          (click)="toggleAvancada()"
+          [attr.aria-expanded]="mostrarAvancada()"
+          aria-controls="portal-consulta-avancada"
+        >
+          Pesquisa avançada
+        </button>
+        <div
+          id="portal-consulta-avancada"
+          #consultaAvancada
+          class="portal-banner__consulta"
+          [class.portal-banner__consulta--aberta]="mostrarAvancada()"
+        >
+          <app-consulta-unidades (consultar)="onConsultar($event)" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="portal-unidades" aria-labelledby="portal-unidades-title">
+  <div class="portal-unidades__container">
+    <h2 id="portal-unidades-title" class="portal-unidades__title">Nossas Unidades</h2>
+
+    @if (carregando()) {
+      <div class="grid portal-unidades__grid" aria-busy="true" aria-live="polite">
+        @for (slot of skeletonSlots; track slot) {
+          <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
+            <div class="unidade-skeleton" aria-hidden="true">
+              <div class="unidade-skeleton__header">
+                <span class="skeleton-bar skeleton-bar--header"></span>
+              </div>
+              <div class="unidade-skeleton__body">
+                <span class="skeleton-bar skeleton-bar--title"></span>
+                <span class="skeleton-bar skeleton-bar--line"></span>
+                <span class="skeleton-bar skeleton-bar--line"></span>
+                <span class="skeleton-bar skeleton-bar--line skeleton-bar--short"></span>
+                <span class="skeleton-bar skeleton-bar--line"></span>
+                <span class="skeleton-bar skeleton-bar--btn"></span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else if (unidadesVisiveis().length > 0) {
+      <div class="grid portal-unidades__grid">
+        @for (unidade of unidadesVisiveis(); track unidade.id) {
+          <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
+            <app-unidade-card [unidade]="unidade" />
+          </div>
+        }
+      </div>
+
+      @if (unidadesVisiveis().length < totalUnidades()) {
+        <div class="portal-unidades__more">
+          <button
+            type="button"
+            pButton
+            label="Mais Unidades"
+            class="portal-unidades__more-btn"
+            (click)="carregarMais()"
+          ></button>
+        </div>
+      }
+    } @else {
+      <p class="portal-unidades__empty" role="status">
+        Nenhuma unidade encontrada para os filtros selecionados.
+      </p>
+    }
+  </div>
+</section> -->

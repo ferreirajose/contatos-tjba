@@ -1,0 +1,38 @@
+<section class="pesquisa-geral" aria-labelledby="pesquisa-geral-title">
+  <h2 id="pesquisa-geral-title" class="pesquisa-geral__title">Pesquisa geral</h2>
+
+  <form class="pesquisa-geral__form" (submit)="$event.preventDefault()" role="search">
+    <div class="pesquisa-geral__input-wrap">
+      <p-floatlabel class="pesquisa-geral__floatlabel" variant="on">
+        <input
+          pInputText
+          id="pesquisa-termo"
+          type="search"
+          class="pesquisa-geral__input"
+          placeholder="Pesquise a Unidade. Ex: Fórum Ruy Barbosa"
+          [formControl]="termo"
+          aria-label="Pesquisar unidade"
+        />
+        <label for="pesquisa-termo">Termos</label>
+      </p-floatlabel>
+      <div class="pesquisa-geral__icons">
+        <button
+          type="button"
+          class="pesquisa-geral__icon-btn"
+          (click)="limpar()"
+          [disabled]="!termo.value"
+          aria-label="Limpar pesquisa"
+        >
+          <i class="pi pi-times" aria-hidden="true"></i>
+        </button>
+        <button
+          type="submit"
+          class="pesquisa-geral__icon-btn"
+          aria-label="Executar pesquisa"
+        >
+          <i class="pi pi-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

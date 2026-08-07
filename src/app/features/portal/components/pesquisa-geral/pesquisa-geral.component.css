@@ -1,0 +1,92 @@
+
+.pesquisa-geral {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.pesquisa-geral__title {
+  margin: 0 0 0.75rem;
+  color: var(--tjba-blue);
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.pesquisa-geral__label {
+  display: block;
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.pesquisa-geral__input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.pesquisa-geral__floatlabel {
+  flex: 1;
+  display: block;
+  min-width: 0;
+}
+
+.pesquisa-geral__input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 18px;
+}
+
+.pesquisa-geral__input:focus {
+  border-color: var(--tjba-blue);
+  outline: 2px solid rgba(30, 64, 175, 0.2);
+  outline-offset: 0;
+}
+
+.pesquisa-geral__icons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pesquisa-geral__icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--tjba-blue);
+  cursor: pointer;
+  padding: 0.4rem 0.55rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.pesquisa-geral__icon-btn i {
+  font-size: 1.6rem;
+}
+
+.pesquisa-geral__icon-btn:hover:not(:disabled),
+.pesquisa-geral__icon-btn:focus-visible {
+  background: rgba(30, 64, 175, 0.1);
+}
+
+.pesquisa-geral__icon-btn:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+
+@media (max-width: 991px) {
+  .pesquisa-geral {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 1rem 1.25rem 0.5rem;
+  }
+}
+
+/* Estilos globais dos form controls estão em src/styles.css */
