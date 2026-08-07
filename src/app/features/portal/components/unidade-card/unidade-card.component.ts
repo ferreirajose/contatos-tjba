@@ -4,10 +4,12 @@ import {
   AnalyticsService,
   EventoAcesso,
 } from '../../../../core/services/analytics.service';
+import { TelefonePipe } from '../../../../shared/pipes/telefone.pipe';
 
 @Component({
   selector: 'app-unidade-card',
   standalone: true,
+  imports: [TelefonePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './unidade-card.component.html',
   styleUrl: './unidade-card.component.css',

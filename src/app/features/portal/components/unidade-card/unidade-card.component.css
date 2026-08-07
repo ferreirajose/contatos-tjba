@@ -90,6 +90,11 @@
   text-decoration: underline;
 }
 
+.unidade-card__email {
+  text-transform: lowercase;
+  word-break: break-all;
+}
+
 .unidade-card__actions {
   display: flex;
   flex-direction: column;

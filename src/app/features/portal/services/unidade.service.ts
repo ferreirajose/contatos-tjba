@@ -367,7 +367,16 @@ export class UnidadeService {
     return of(MOCK_UNIDADES).pipe(
       delay(900),
       map((unidades) => (filtro ? this.aplicarFiltro(unidades, filtro) : unidades)),
+      map((unidades) => this.ordenar(unidades)),
     );
+  }
+
+  private ordenar(unidades: readonly Unidade[]): readonly Unidade[] {
+    const collator = new Intl.Collator('pt-BR', { sensitivity: 'base' });
+    return [...unidades].sort((a, b) => {
+      const comarca = collator.compare(a.comarca, b.comarca);
+      return comarca !== 0 ? comarca : collator.compare(a.nome, b.nome);
+    });
   }
 
   listarComarcas(): Observable<readonly Comarca[]> {
