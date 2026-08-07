@@ -44,14 +44,25 @@
       >
         Acessar Balcão Virtual
       </a>
-      <a
-        class="unidade-card__link"
-        [href]="unidade().agendaMagistradoUrl"
-        target="_blank"
-        rel="noopener"
-      >
-        Agendar com Magistrado
-      </a>
+      @if (unidade().agendaMagistradoUrl) {
+        <a
+          class="unidade-card__link"
+          [href]="unidade().agendaMagistradoUrl"
+          target="_blank"
+          rel="noopener"
+        >
+          Agendar com Magistrado
+        </a>
+      } @else {
+        <button
+          type="button"
+          class="unidade-card__link unidade-card__link--disabled"
+          disabled
+          aria-disabled="true"
+        >
+          Agendar com Magistrado
+        </button>
+      }
     </div>
   </div>
 </article>
