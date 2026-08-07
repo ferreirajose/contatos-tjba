@@ -121,11 +121,34 @@
     gap: 0.5rem 0.75rem;
   }
 
+  .consulta__fieldset--inline::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .consulta__fieldset--inline .consulta__legend {
+    float: left;
+    margin: 0 0.75rem 0 0;
+    line-height: 1.6;
+  }
+
+  .consulta__options--inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    overflow: hidden;
+  }
+
   .consulta__option {
     font-size: 15px;
     min-width: 0;
   }
-}
 
+  .consulta__footer {
+    justify-content: flex-end;
+  }
+}
 
 /* Estilos globais dos form controls estão em src/styles.css */
