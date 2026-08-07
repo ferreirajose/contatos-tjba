@@ -36,20 +36,36 @@
     </ul>
 
     <div class="unidade-card__actions">
-      <a
-        class="unidade-card__button"
-        [href]="unidade().balcaoVirtualUrl"
-        target="_blank"
-        rel="noopener"
-      >
-        Acessar Balcão Virtual
-      </a>
+      @if (unidade().balcaoVirtualUrl) {
+        <a
+          class="unidade-card__button"
+          [href]="unidade().balcaoVirtualUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          (click)="registrarAcesso('BALCAO_VIRTUAL', unidade().balcaoVirtualUrl)"
+        >
+          Acessar Balcão Virtual
+        </a>
+      } @else {
+        <button
+          type="button"
+          class="unidade-card__button unidade-card__button--disabled"
+          disabled
+          aria-disabled="true"
+          title="Balcão Virtual indisponível para esta unidade"
+          aria-label="Balcão Virtual indisponível para esta unidade"
+        >
+          Acessar Balcão Virtual
+        </button>
+      }
+
       @if (unidade().agendaMagistradoUrl) {
         <a
           class="unidade-card__link"
           [href]="unidade().agendaMagistradoUrl"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
+          (click)="registrarAcesso('AGENDA_MAGISTRADO', unidade().agendaMagistradoUrl)"
         >
           Agendar com Magistrado
         </a>
@@ -59,6 +75,8 @@
           class="unidade-card__link unidade-card__link--disabled"
           disabled
           aria-disabled="true"
+          title="Agendamento com magistrado indisponível para esta unidade"
+          aria-label="Agendamento com magistrado indisponível para esta unidade"
         >
           Agendar com Magistrado
         </button>

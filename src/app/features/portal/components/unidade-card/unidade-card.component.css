@@ -108,11 +108,22 @@
   width: 100%;
   text-align: center;
   transition: background-color 0.15s ease;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
 }
 
 .unidade-card__button:hover,
 .unidade-card__button:focus-visible {
   background: #185a30;
+}
+
+.unidade-card__button--disabled,
+.unidade-card__button--disabled:hover,
+.unidade-card__button--disabled:focus-visible {
+  background: #9ca3af;
+  cursor: not-allowed;
 }
 
 .unidade-card__link {
