@@ -78,9 +78,15 @@
         </div>
       }
     } @else {
-      <p class="portal-unidades__empty" role="status">
-       nenhuma unidade encontrada
-      </p>
+      @if (filtro().termo) {
+        <p class="portal-unidades__empty" role="status">
+          Sua busca por <strong>{{ filtro().termo }}</strong> não retornou resultado. Por favor, tente realizar a busca por outra palavra.
+        </p>
+      } @else {
+        <p class="portal-unidades__empty" role="status">
+          Nenhuma unidade encontrada.
+        </p>
+      }
     }
   </div>
 </section>

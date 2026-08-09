@@ -41,7 +41,7 @@ export interface UnidadeOption {
 export interface FiltroUnidades {
   readonly termo: string | null;
   readonly areas: readonly AreaInteresse[];
-  readonly localidade: Localidade | null;
+  readonly localidades: readonly Localidade[];
   readonly comarcaId: string | null;
   readonly unidadeId: string | null;
 }
