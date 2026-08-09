@@ -23,11 +23,11 @@ import { PesquisaGeralComponent } from './components/pesquisa-geral/pesquisa-ger
 import { ConsultaUnidadesComponent } from './components/consulta-unidades/consulta-unidades.component';
 import { UnidadeCardComponent } from './components/unidade-card/unidade-card.component';
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 4;
 const INITIAL_FILTRO: FiltroUnidades = {
   termo: null,
   areas: [],
-  localidade: null,
+  localidades: [],
   comarcaId: null,
   unidadeId: null,
 };

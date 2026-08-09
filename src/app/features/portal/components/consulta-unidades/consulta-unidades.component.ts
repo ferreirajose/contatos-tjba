@@ -12,7 +12,8 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, combineLatest, takeUntil } from 'rxjs';
+import { distinctUntilChanged, filter, startWith } from 'rxjs/operators';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import {
   AutoCompleteCompleteEvent,
@@ -85,7 +86,7 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
     area: new FormControl<AreaInteresse | null>('PRIMEIRO_GRAU'),
     localidade: new FormControl<Localidade | null>('CAPITAL'),
     comarca: new FormControl<Comarca | null>(null),
-    unidade: new FormControl<UnidadeOption | null>(null),
+    unidade: new FormControl<UnidadeOption | null>({ value: null, disabled: true }),
   });
 
   protected comarcasSugestoes: Comarca[] = [];
@@ -99,21 +100,39 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.unidadeService
-      .listarComarcas()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((c) => {
-        this.todasComarcas = [...c];
-        this.cdr.markForCheck();
-      });
+    const area$ = this.form.controls.area.valueChanges.pipe(
+      startWith(this.form.controls.area.value),
+      distinctUntilChanged(),
+    );
+    const localidade$ = this.form.controls.localidade.valueChanges.pipe(
+      startWith(this.form.controls.localidade.value),
+      distinctUntilChanged(),
+    );
 
-    this.recarregarUnidades(null);
+    combineLatest([area$, localidade$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([area, localidade]) => {
+        this.form.controls.comarca.setValue(null, { emitEvent: false });
+        this.form.controls.unidade.setValue(null, { emitEvent: false });
+        this.form.controls.unidade.disable({ emitEvent: false });
+        this.recarregarComarcas(area, localidade);
+        this.recarregarUnidades(null, area, localidade);
+      });
 
     this.form.controls.comarca.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((comarca) => {
         this.form.controls.unidade.setValue(null, { emitEvent: false });
-        this.recarregarUnidades(comarca?.id ?? null);
+        if (comarca) {
+          this.form.controls.unidade.enable({ emitEvent: false });
+        } else {
+          this.form.controls.unidade.disable({ emitEvent: false });
+        }
+        this.recarregarUnidades(
+          comarca?.id ?? null,
+          this.form.controls.area.value,
+          this.form.controls.localidade.value,
+        );
       });
   }
 
@@ -135,7 +154,7 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
     const value = this.form.getRawValue();
     this.consultar.emit({
       areas: value.area ? [value.area] : [],
-      localidade: value.localidade,
+      localidades: value.localidade ? [value.localidade] : [],
       comarcaId: value.comarca?.id ?? null,
       unidadeId: value.unidade?.id ?? null,
     });
@@ -146,9 +165,31 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private recarregarUnidades(comarcaId: string | null): void {
+  private recarregarComarcas(
+    area: AreaInteresse | null,
+    localidade: Localidade | null,
+  ): void {
+    const areas = area ? [area] : [];
+    const localidades = localidade ? [localidade] : [];
     this.unidadeService
-      .listarUnidadesOptions(comarcaId)
+      .listarComarcas(areas, localidades)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((c) => {
+        this.todasComarcas = [...c];
+        this.comarcasSugestoes = [];
+        this.cdr.markForCheck();
+      });
+  }
+
+  private recarregarUnidades(
+    comarcaId: string | null,
+    area: AreaInteresse | null,
+    localidade: Localidade | null,
+  ): void {
+    const areas = area ? [area] : [];
+    const localidades = localidade ? [localidade] : [];
+    this.unidadeService
+      .listarUnidadesOptions(comarcaId, areas, localidades)
       .pipe(takeUntil(this.destroy$))
       .subscribe((u) => {
         this.todasUnidades = [...u];
