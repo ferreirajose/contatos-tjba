@@ -35,7 +35,7 @@
 .unidade-card__comarca {
   margin: 0;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .unidade-card__body {
@@ -72,6 +72,30 @@
   gap: 0.65rem;
   align-items: start;
   line-height: 1.4;
+}
+
+.unidade-card__info-row {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.unidade-card__info-content {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.unidade-card__area-label {
+  color: #fff;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
 
 .unidade-card__info i {

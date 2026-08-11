@@ -58,13 +58,25 @@
         }
       </div>
     } @else if (unidadesVisiveis().length > 0) {
-      <div class="grid portal-unidades__grid">
-        @for (unidade of unidadesVisiveis(); track unidade.id) {
-          <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
-            <app-unidade-card [unidade]="unidade" />
+      @for (grupo of gruposPorCidade(); track grupo.cidade) {
+        <div class="portal-unidades__cidade-container">
+          <div class="portal-unidades__cidade-header" (click)="toggleCidade(grupo.cidade)">
+            <h3 class="portal-unidades__cidade-titulo">{{ grupo.cidadeDisplay }}</h3>
+            <i class="pi pi-chevron-down portal-unidades__chevron"
+               [class.portal-unidades__chevron--collapsed]="cidadesColapsadas().has(grupo.cidade)"></i>
           </div>
-        }
-      </div>
+          <div class="portal-unidades__cidade-body"
+               [class.portal-unidades__cidade-body--collapsed]="cidadesColapsadas().has(grupo.cidade)">
+            <div class="grid portal-unidades__grid">
+              @for (unidade of grupo.unidades; track unidade.id) {
+                <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
+                  <app-unidade-card [unidade]="unidade" />
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
 
       @if (unidadesVisiveis().length < totalUnidades()) {
         <div class="portal-unidades__more">
@@ -78,15 +90,16 @@
         </div>
       }
     } @else {
-      @if (filtro().termo) {
-        <p class="portal-unidades__empty" role="status">
-          Sua busca por <strong>{{ filtro().termo }}</strong> não retornou resultado. Por favor, tente realizar a busca por outra palavra.
-        </p>
-      } @else {
-        <p class="portal-unidades__empty" role="status">
-          Nenhuma unidade encontrada.
-        </p>
-      }
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        @if (filtro().termo) {
+          <p>Sua busca por <strong>{{ filtro().termo }}</strong> não retornou resultado. Por favor, tente realizar a busca por outra palavra.</p>
+        } @else if (filtro().areas.length > 0 || filtro().localidades.length > 0 || filtro().comarcaId || filtro().unidadeId) {
+          <p>Nenhum registro encontrado para os filtros informados.</p>
+        } @else {
+          <p>Nenhuma unidade encontrada.</p>
+        }
+      </div>
     }
   </div>
 </section>

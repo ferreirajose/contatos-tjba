@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild,
   afterNextRender,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -23,7 +24,13 @@ import { PesquisaGeralComponent } from './components/pesquisa-geral/pesquisa-ger
 import { ConsultaUnidadesComponent } from './components/consulta-unidades/consulta-unidades.component';
 import { UnidadeCardComponent } from './components/unidade-card/unidade-card.component';
 
-const PAGE_SIZE = 4;
+interface GrupoCidade {
+  readonly cidade: string;
+  readonly cidadeDisplay: string;
+  readonly unidades: readonly Unidade[];
+}
+
+const PAGE_SIZE = 10;
 const INITIAL_FILTRO: FiltroUnidades = {
   termo: null,
   areas: [],
@@ -50,9 +57,36 @@ export class PortalComponent implements OnInit, OnDestroy {
   protected readonly limite = signal<number>(PAGE_SIZE);
   protected readonly mostrarAvancada = signal<boolean>(false);
   protected readonly carregando = signal<boolean>(true);
+  protected readonly cidadesColapsadas = signal<Set<string>>(new Set());
   protected readonly skeletonSlots = Array.from({ length: PAGE_SIZE }, (_, i) => i);
   protected readonly unidadesVisiveis = signal<readonly Unidade[]>([]);
   protected readonly totalUnidades = signal<number>(0);
+
+  protected readonly gruposPorCidade = computed<readonly GrupoCidade[]>(() => {
+    const unidades = this.unidadesVisiveis();
+    const mapaGrupos = new Map<string, Unidade[]>();
+
+    for (const unidade of unidades) {
+      const cidade = unidade.comarca;
+      if (!mapaGrupos.has(cidade)) {
+        mapaGrupos.set(cidade, []);
+      }
+      mapaGrupos.get(cidade)!.push(unidade);
+    }
+
+    return Array.from(mapaGrupos.entries()).map(([cidade, unidadesDaCidade]) => ({
+      cidade,
+      cidadeDisplay: this.formatarNomeCidade(cidade),
+      unidades: unidadesDaCidade,
+    }));
+  });
+
+  private formatarNomeCidade(cidade: string): string {
+    return cidade
+      .split('-')
+      .map(palavra => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+      .join(' ');
+  }
 
   @ViewChild('consultaAvancada') private consultaAvancadaRef?: ElementRef<HTMLElement>;
 
@@ -130,6 +164,16 @@ export class PortalComponent implements OnInit, OnDestroy {
     const novoLimite = this.limite() + PAGE_SIZE;
     this.limite.set(novoLimite);
     this.limiteChanges$.next(novoLimite);
+  }
+
+  protected toggleCidade(cidade: string): void {
+    const colapsadas = new Set(this.cidadesColapsadas());
+    if (colapsadas.has(cidade)) {
+      colapsadas.delete(cidade);
+    } else {
+      colapsadas.add(cidade);
+    }
+    this.cidadesColapsadas.set(colapsadas);
   }
 
   ngOnDestroy(): void {

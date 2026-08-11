@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { Subject, combineLatest, takeUntil } from 'rxjs';
 import { distinctUntilChanged, filter, startWith } from 'rxjs/operators';
-import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 import {
   AutoCompleteCompleteEvent,
   AutoCompleteModule,
@@ -42,8 +42,8 @@ interface LocalidadeOption {
 }
 
 interface ConsultaFormValue {
-  area: AreaInteresse | null;
-  localidade: Localidade | null;
+  areas: AreaInteresse[];
+  localidades: Localidade[];
   comarca: Comarca | null;
   unidade: UnidadeOption | null;
 }
@@ -58,7 +58,7 @@ type ConsultaFormControls = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    RadioButtonModule,
+    CheckboxModule,
     AutoCompleteModule,
     ButtonModule,
     FloatLabelModule,
@@ -70,11 +70,11 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   readonly consultar = output<Omit<FiltroUnidades, 'termo'>>();
 
   protected readonly areas: readonly AreaOption[] = [
-    { value: 'PRIMEIRO_GRAU', label: '1º Grau' },
-    { value: 'SEGUNDO_GRAU', label: '2º Grau' },
-    { value: 'EXTRAJUDICIAL', label: 'Extrajudicial' },
     { value: 'JUIZADO', label: 'Juizado' },
+    { value: 'EXTRAJUDICIAL', label: 'Extrajudicial' },
+    { value: 'PRIMEIRO_GRAU', label: '1º Grau' },
     { value: 'TURMA_RECURSAL', label: 'Turma Recursal' },
+    { value: 'SEGUNDO_GRAU', label: '2º Grau' },
   ];
 
   protected readonly localidades: readonly LocalidadeOption[] = [
@@ -83,8 +83,8 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   ];
 
   protected readonly form = new FormGroup<ConsultaFormControls>({
-    area: new FormControl<AreaInteresse | null>('PRIMEIRO_GRAU'),
-    localidade: new FormControl<Localidade | null>('CAPITAL'),
+    areas: new FormControl<AreaInteresse[]>(['PRIMEIRO_GRAU'], { nonNullable: true }),
+    localidades: new FormControl<Localidade[]>(['CAPITAL'], { nonNullable: true }),
     comarca: new FormControl<Comarca | null>(null),
     unidade: new FormControl<UnidadeOption | null>({ value: null, disabled: true }),
   });
@@ -100,23 +100,21 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    const area$ = this.form.controls.area.valueChanges.pipe(
-      startWith(this.form.controls.area.value),
-      distinctUntilChanged(),
+    const areas$ = this.form.controls.areas.valueChanges.pipe(
+      startWith(this.form.controls.areas.value),
     );
-    const localidade$ = this.form.controls.localidade.valueChanges.pipe(
-      startWith(this.form.controls.localidade.value),
-      distinctUntilChanged(),
+    const localidades$ = this.form.controls.localidades.valueChanges.pipe(
+      startWith(this.form.controls.localidades.value),
     );
 
-    combineLatest([area$, localidade$])
+    combineLatest([areas$, localidades$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([area, localidade]) => {
+      .subscribe(([areas, localidades]) => {
         this.form.controls.comarca.setValue(null, { emitEvent: false });
         this.form.controls.unidade.setValue(null, { emitEvent: false });
         this.form.controls.unidade.disable({ emitEvent: false });
-        this.recarregarComarcas(area, localidade);
-        this.recarregarUnidades(null, area, localidade);
+        this.recarregarComarcas(areas, localidades);
+        this.recarregarUnidades(null, areas, localidades);
       });
 
     this.form.controls.comarca.valueChanges
@@ -130,8 +128,8 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
         }
         this.recarregarUnidades(
           comarca?.id ?? null,
-          this.form.controls.area.value,
-          this.form.controls.localidade.value,
+          this.form.controls.areas.value,
+          this.form.controls.localidades.value,
         );
       });
   }
@@ -153,8 +151,8 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   protected onSubmit(): void {
     const value = this.form.getRawValue();
     this.consultar.emit({
-      areas: value.area ? [value.area] : [],
-      localidades: value.localidade ? [value.localidade] : [],
+      areas: value.areas,
+      localidades: value.localidades,
       comarcaId: value.comarca?.id ?? null,
       unidadeId: value.unidade?.id ?? null,
     });
@@ -166,28 +164,27 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   }
 
   private recarregarComarcas(
-    area: AreaInteresse | null,
-    localidade: Localidade | null,
+    areas: AreaInteresse[],
+    localidades: Localidade[],
   ): void {
-    const areas = area ? [area] : [];
-    const localidades = localidade ? [localidade] : [];
     this.unidadeService
       .listarComarcas(areas, localidades)
       .pipe(takeUntil(this.destroy$))
       .subscribe((c) => {
         this.todasComarcas = [...c];
         this.comarcasSugestoes = [];
+        if (localidades.length === 1 && localidades[0] === 'CAPITAL' && this.todasComarcas.length === 1) {
+          this.form.controls.comarca.setValue(this.todasComarcas[0]);
+        }
         this.cdr.markForCheck();
       });
   }
 
   private recarregarUnidades(
     comarcaId: string | null,
-    area: AreaInteresse | null,
-    localidade: Localidade | null,
+    areas: AreaInteresse[],
+    localidades: Localidade[],
   ): void {
-    const areas = area ? [area] : [];
-    const localidades = localidade ? [localidade] : [];
     this.unidadeService
       .listarUnidadesOptions(comarcaId, areas, localidades)
       .pipe(takeUntil(this.destroy$))

@@ -32,7 +32,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
     funcionamento: '08:00h às 18:00h',
     magistradoResponsavel: 'Andreia Valença',
     balcaoVirtualUrl: 'https://balcaovirtual.tjba.jus.br/unidade/2',
-    agendaMagistradoUrl: 'https://agenda.tjba.jus.br/magistrado/2',
+    agendaMagistradoUrl: '',
     area: 'PRIMEIRO_GRAU',
     localidade: 'INTERIOR',
   },
@@ -123,7 +123,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
   },
   {
     id: '8',
-    nome: 'Serventia Extrajudicial de Vitória da Conquista',
+    nome: 'Extrajudicial de Vitória da Conquista',
     comarca: 'vitoria-da-conquista',
     telefone: '(77) 3421-9987',
     email: 'vconquista-extra@tjba.jus.br',
@@ -225,7 +225,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
   },
   {
     id: '14',
-    nome: 'Serventia Extrajudicial de Barreiras',
+    nome: 'Extrajudicial de Barreiras',
     comarca: 'barreiras',
     telefone: '(77) 3611-2244',
     email: 'barreiras-extra@tjba.jus.br',
