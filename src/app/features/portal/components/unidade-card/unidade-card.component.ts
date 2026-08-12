@@ -12,11 +12,11 @@ interface AreaConfig {
 }
 
 const AREA_CONFIG: Record<AreaInteresse, AreaConfig> = {
-  PRIMEIRO_GRAU: { label: '1º Grau', cor: '#F97316' },
-  SEGUNDO_GRAU: { label: '2º Grau', cor: '#6CB6FF' },
-  EXTRAJUDICIAL: { label: 'Extrajudicial', cor: '#F84711' },
-  JUIZADO: { label: 'Juizado', cor: '#A91E2C' },
-  TURMA_RECURSAL: { label: 'Turma Recursal', cor: '#7D11F8' },
+  PRIMEIRO_GRAU: { label: '1º Grau', cor: '#6CB6FF' },
+  SEGUNDO_GRAU: { label: '2º Grau', cor: '#FE0D00' },
+  EXTRAJUDICIAL: { label: 'Extrajudicial', cor: '#F97316' },
+  JUIZADO: { label: 'Juizado', cor: '#D1A13D' },
+  TURMA_RECURSAL: { label: 'Turma Recursal', cor: '#1CA800' },
 };
 
 @Component({
