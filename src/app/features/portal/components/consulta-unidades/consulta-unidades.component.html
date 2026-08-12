@@ -7,11 +7,10 @@
       <div class="consulta__options">
         @for (area of areas; track area.value) {
           <div class="consulta__option">
-            <p-radiobutton
+            <p-checkbox
               inputId="area-{{ area.value }}"
-              name="areas"
               [value]="area.value"
-              formControlName="area"
+              formControlName="areas"
             />
             <label [attr.for]="'area-' + area.value">{{ area.label }}</label>
           </div>
@@ -24,11 +23,10 @@
       <div class="consulta__options consulta__options--inline">
         @for (loc of localidades; track loc.value) {
           <div class="consulta__option">
-            <p-radiobutton
+            <p-checkbox
               inputId="loc-{{ loc.value }}"
-              name="localidades"
               [value]="loc.value"
-              formControlName="localidade"
+              formControlName="localidades"
             />
             <label [attr.for]="'loc-' + loc.value">{{ loc.label }}</label>
           </div>

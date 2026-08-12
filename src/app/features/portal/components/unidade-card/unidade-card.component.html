@@ -1,16 +1,24 @@
 <article class="unidade-card" [attr.aria-label]="'Unidade ' + unidade().nome">
   <header class="unidade-card__header">
-    <h3 class="unidade-card__comarca">{{ labelComarca(unidade().comarca) }}</h3>
+    <h3 class="unidade-card__comarca">{{ unidade().nome }}</h3>
   </header>
 
   <div class="unidade-card__body">
-    <h4 class="unidade-card__nome">{{ unidade().nome }}</h4>
+    <!-- <h4 class="unidade-card__nome">{{ unidade().nome }}</h4> -->
 
     <ul class="unidade-card__info">
-      <li>
-        <i class="pi pi-phone" aria-hidden="true"></i>
-        <span class="sr-only">Telefone:</span>
-        <a [href]="'tel:' + unidade().telefone">{{ unidade().telefone | telefone }}</a>
+      <li class="unidade-card__info-row">
+        <div class="unidade-card__info-content">
+          <i class="pi pi-phone" aria-hidden="true"></i>
+          <span class="sr-only">Telefone:</span>
+          <a [href]="'tel:' + unidade().telefone">{{ unidade().telefone | telefone }}</a>
+        </div>
+        <div
+          class="unidade-card__area-label"
+          [style.background-color]="areaConfig().cor"
+        >
+          {{ areaConfig().label }}
+        </div>
       </li>
       <li>
         <i class="pi pi-envelope" aria-hidden="true"></i>
