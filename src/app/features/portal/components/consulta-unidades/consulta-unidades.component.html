@@ -1,7 +1,35 @@
-<section class="consulta" aria-labelledby="consulta-title">
-  <h2 id="consulta-title" class="consulta__title">Consulta das Unidades</h2>
+<section class="consulta" [class.hasPadding]="hasIndex()" aria-labelledby="consulta-title">
+  <div class="consulta__header">
+    <h2 id="consulta-title" class="consulta__title">Pesquisa das Unidades</h2>
+    @if (mostrarToggle()) {
+      <button
+        type="button"
+        class="consulta__toggle"
+        (click)="fechar.emit()"
+        aria-label="Fechar pesquisa avançada"
+      >
+        <i class="pi pi-chevron-up" aria-hidden="true"></i>
+      </button>
+    }
+  </div>
+  <p class="consulta__subtitle">Utilize nossa pesquisa e encontre a Unidade que mais atenda sua demanda junto ao Poder Judiciário da Bahia.</p>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="consulta__form">
+    <div class="consulta__field">
+      <p-floatlabel class="consulta__floatlabel" variant="on">
+        <input
+          pInputText
+          id="pesquisa-termo"
+          type="text"
+          class="consulta__input"
+          placeholder="Ex: Fórum Ruy Barbosa"
+          formControlName="termo"
+          aria-label="Pesquisar unidade"
+        />
+        <label for="pesquisa-termo">Palavra-chave</label>
+      </p-floatlabel>
+    </div>
+
     <fieldset class="consulta__fieldset">
       <legend class="consulta__legend">Áreas de interesse:</legend>
       <div class="consulta__options">
@@ -71,13 +99,10 @@
     </div>
 
     <div class="consulta__footer">
-      <p class="consulta__hint">
-        Utilize os filtros e encontre a unidade que mais lhe atenda, junto ao Poder Judiciário da Bahia.
-      </p>
       <button
         type="submit"
         pButton
-        label="Consultar"
+        label="Pesquisa"
         class="consulta__submit"
       ></button>
     </div>

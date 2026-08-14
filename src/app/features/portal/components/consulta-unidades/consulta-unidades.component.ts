@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  input,
   output,
 } from '@angular/core';
 import {
@@ -21,6 +22,7 @@ import {
 } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
 
 import {
   AreaInteresse,
@@ -42,6 +44,7 @@ interface LocalidadeOption {
 }
 
 interface ConsultaFormValue {
+  termo: string;
   areas: AreaInteresse[];
   localidades: Localidade[];
   comarca: Comarca | null;
@@ -62,12 +65,16 @@ type ConsultaFormControls = {
     AutoCompleteModule,
     ButtonModule,
     FloatLabelModule,
+    InputTextModule,
   ],
   templateUrl: './consulta-unidades.component.html',
   styleUrl: './consulta-unidades.component.css',
 })
 export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
-  readonly consultar = output<Omit<FiltroUnidades, 'termo'>>();
+  readonly mostrarToggle = input<boolean>(false);
+  readonly hasIndex = input<boolean>(false);
+  readonly consultar = output<FiltroUnidades>();
+  readonly fechar = output<void>();
 
   protected readonly areas: readonly AreaOption[] = [
     { value: 'JUIZADO', label: 'Juizado' },
@@ -83,8 +90,9 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   ];
 
   protected readonly form = new FormGroup<ConsultaFormControls>({
-    areas: new FormControl<AreaInteresse[]>(['PRIMEIRO_GRAU'], { nonNullable: true }),
-    localidades: new FormControl<Localidade[]>(['CAPITAL'], { nonNullable: true }),
+    termo: new FormControl<string>('', { nonNullable: true }),
+    areas: new FormControl<AreaInteresse[]>([], { nonNullable: true }),
+    localidades: new FormControl<Localidade[]>([], { nonNullable: true }),
     comarca: new FormControl<Comarca | null>(null),
     unidade: new FormControl<UnidadeOption | null>({ value: null, disabled: true }),
   });
@@ -149,13 +157,18 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   }
 
   protected onSubmit(): void {
+    this.consultar.emit(this.getFormValues());
+  }
+
+  getFormValues(): FiltroUnidades {
     const value = this.form.getRawValue();
-    this.consultar.emit({
+    return {
+      termo: value.termo.trim() || null,
       areas: value.areas,
       localidades: value.localidades,
       comarcaId: value.comarca?.id ?? null,
       unidadeId: value.unidade?.id ?? null,
-    });
+    };
   }
 
   ngOnDestroy(): void {

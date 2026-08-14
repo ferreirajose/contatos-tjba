@@ -1,4 +1,5 @@
-import { Comarca, Unidade } from "../core/models/unidade.model";
+
+import { Comarca, Unidade } from '../core/models/unidade.model';
 
 
 export const MOCK_UNIDADES: readonly Unidade[] = [
@@ -15,7 +16,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
     funcionamento: '08:00h às 18:00h',
     magistradoResponsavel: 'Jose Henrique',
     balcaoVirtualUrl: 'https://balcaovirtual.tjba.jus.br/unidade/1',
-    agendaMagistradoUrl: 'https://agenda.tjba.jus.br/magistrado/1',
+    agendaMagistradoUrl: '',
     area: 'PRIMEIRO_GRAU',
     localidade: 'CAPITAL',
   },
@@ -32,13 +33,13 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
     funcionamento: '08:00h às 18:00h',
     magistradoResponsavel: 'Andreia Valença',
     balcaoVirtualUrl: 'https://balcaovirtual.tjba.jus.br/unidade/2',
-    agendaMagistradoUrl: '',
+    agendaMagistradoUrl: 'https://agenda.tjba.jus.br/magistrado/2',
     area: 'PRIMEIRO_GRAU',
     localidade: 'INTERIOR',
   },
   {
     id: '3',
-    nome: '16ª Vara do Sistema dos Juizados Especiais do Consumidor',
+    nome: '16ª Vara do Consumidor',
     comarca: 'salvador',
     telefone: '(71) 3372-7390',
     email: 'ssa-16vsje-consumo@tjba.jus.br',

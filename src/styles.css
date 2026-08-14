@@ -43,6 +43,22 @@ body {
   --p-autocomplete-dropdown-border-color: #cdd5e1;
 }
 
+
+
+/* ==========================================================================
+   PrimeNG form controls — global theming checkbox
+   ========================================================================== */
+
+:host ::ng-deep .p-checkbox {
+  --p-checkbox-checked-background: purple;
+  --p-checkbox-checked-border-color: purple;
+  --p-checkbox-checked-hover-background: #6b21a8;
+  --p-checkbox-checked-hover-border-color: #6b21a8;
+  --p-checkbox-icon-checked-color: #fff;
+  --p-checkbox-icon-checked-hover-color: #fff;
+}
+
+
 .p-inputtext,
 .p-calendar .p-inputtext,
 .p-autocomplete .p-autocomplete-input,
@@ -142,7 +158,8 @@ textarea:focus::placeholder {
 :root .p-floatlabel:has(input:focus) label,
 :root .p-floatlabel:has(textarea:focus) label,
 :root .p-floatlabel:has(.p-inputwrapper-focus) label {
-  color: #1976d2 !important;
+  color: #000 !important;
+  font-size: 18px;
 }
 
 .p-radiobutton-checked .p-radiobutton-box {

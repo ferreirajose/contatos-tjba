@@ -3,31 +3,14 @@
     <div class="col-12 lg:col-6 portal-banner__left">
       <div class="portal-banner__overlay">
         <h1 id="portal-banner-title" class="portal-banner__title">
-          Bem-vindo ao Portal<br />de Contatos do TJBA
+          Bem-vindo ao Portal de Contatos
         </h1>
       </div>
     </div>
 
     <div class="col-12 lg:col-6 portal-banner__right">
       <div class="portal-banner__forms">
-        <app-pesquisa-geral (termoChange)="onTermoChange($event)" />
-        <button
-          type="button"
-          class="portal-banner__toggle"
-          (click)="toggleAvancada()"
-          [attr.aria-expanded]="mostrarAvancada()"
-          aria-controls="portal-consulta-avancada"
-        >
-          Pesquisa avançada
-        </button>
-        <div
-          id="portal-consulta-avancada"
-          #consultaAvancada
-          class="portal-banner__consulta"
-          [class.portal-banner__consulta--aberta]="mostrarAvancada()"
-        >
-          <app-consulta-unidades (consultar)="onConsultar($event)" />
-        </div>
+        <app-consulta-unidades [hasIndex]="true" (consultar)="onConsultar($event)" />
       </div>
     </div>
   </div>
@@ -35,7 +18,7 @@
 
 <section class="portal-unidades" aria-labelledby="portal-unidades-title">
   <div class="portal-unidades__container">
-    <h2 id="portal-unidades-title" class="portal-unidades__title">Nossas Unidades</h2>
+    <h2 id="portal-unidades-title" class="portal-unidades__title">Resultado da pesquisa ( {{ totalUnidades()}} unidades)</h2>
 
     @if (carregando()) {
       <div class="grid portal-unidades__grid" aria-busy="true" aria-live="polite">
@@ -80,13 +63,13 @@
 
       @if (unidadesVisiveis().length < totalUnidades()) {
         <div class="portal-unidades__more">
-          <button
+          <!-- <button
             type="button"
             pButton
             label="Mais Unidades"
             class="portal-unidades__more-btn"
             (click)="carregarMais()"
-          ></button>
+          ></button> -->
         </div>
       }
     } @else {
@@ -94,8 +77,6 @@
         <i class="pi pi-inbox"></i>
         @if (filtro().termo) {
           <p>Sua busca por <strong>{{ filtro().termo }}</strong> não retornou resultado. Por favor, tente realizar a busca por outra palavra.</p>
-        } @else if (filtro().areas.length > 0 || filtro().localidades.length > 0 || filtro().comarcaId || filtro().unidadeId) {
-          <p>Nenhum registro encontrado para os filtros informados.</p>
         } @else {
           <p>Nenhuma unidade encontrada.</p>
         }

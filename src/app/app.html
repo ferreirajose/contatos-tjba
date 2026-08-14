@@ -1,6 +1,8 @@
 <a class="skip-link" href="#main-content">Ir para o conteúdo principal</a>
 
-<app-header />
+@if (mostrarHeader()) {
+  <app-header />
+}
 
 <main id="main-content" tabindex="-1">
   <router-outlet />
