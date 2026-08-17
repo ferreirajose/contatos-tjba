@@ -26,7 +26,7 @@ interface GrupoCidade {
   readonly unidades: readonly Unidade[];
 }
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 const INITIAL_FILTRO: FiltroUnidades = {
   termo: null,
   areas: [],
@@ -50,7 +50,8 @@ const INITIAL_FILTRO: FiltroUnidades = {
 export class PortalComponent implements OnInit, OnDestroy {
   protected readonly filtro = signal<FiltroUnidades>(INITIAL_FILTRO);
   protected readonly limite = signal<number>(PAGE_SIZE);
-  protected readonly carregando = signal<boolean>(true);
+  protected readonly carregando = signal<boolean>(false);
+  protected readonly pesquisaRealizada = signal<boolean>(false);
   protected readonly cidadesColapsadas = signal<Set<string>>(new Set());
   protected readonly skeletonSlots = Array.from({ length: PAGE_SIZE }, (_, i) => i);
   protected readonly unidadesVisiveis = signal<readonly Unidade[]>([]);
@@ -91,12 +92,17 @@ export class PortalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       const filtroFromParams = this.parseQueryParams(params);
-      this.filtro.set(filtroFromParams);
-      this.filtroChanges$.next(filtroFromParams);
+      const hasQueryParams = filtroFromParams.termo || filtroFromParams.areas.length > 0 ||
+        filtroFromParams.localidades.length > 0 || filtroFromParams.comarcaId || filtroFromParams.unidadeId;
+
+      if (hasQueryParams) {
+        this.pesquisaRealizada.set(true);
+        this.filtro.set(filtroFromParams);
+        this.filtroChanges$.next(filtroFromParams);
+      }
     });
 
     const filtroStream$ = this.filtroChanges$.pipe(
-      startWith(this.filtro()),
       tap(() => this.carregando.set(true)),
     );
     const limiteStream$ = this.limiteChanges$.pipe(startWith(this.limite()));
@@ -131,10 +137,19 @@ export class PortalComponent implements OnInit, OnDestroy {
   }
 
   protected onConsultar(filtro: FiltroUnidades): void {
+    this.pesquisaRealizada.set(true);
     this.filtro.set(filtro);
     this.limite.set(PAGE_SIZE);
     this.filtroChanges$.next(filtro);
     this.limiteChanges$.next(PAGE_SIZE);
+  }
+
+  protected onLimpar(): void {
+    this.pesquisaRealizada.set(false);
+    this.filtro.set(INITIAL_FILTRO);
+    this.unidadesVisiveis.set([]);
+    this.totalUnidades.set(0);
+    this.limite.set(PAGE_SIZE);
   }
 
   protected carregarMais(): void {

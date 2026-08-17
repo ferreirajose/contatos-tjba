@@ -3,84 +3,125 @@
     <div class="col-12 lg:col-6 portal-banner__left">
       <div class="portal-banner__overlay">
         <h1 id="portal-banner-title" class="portal-banner__title">
-          Bem-vindo ao Portal de Contatos
+          Portal de Contatos
         </h1>
       </div>
     </div>
 
     <div class="col-12 lg:col-6 portal-banner__right">
       <div class="portal-banner__forms">
-        <app-consulta-unidades [hasIndex]="true" (consultar)="onConsultar($event)" />
+        <app-consulta-unidades [hasIndex]="true" (consultar)="onConsultar($event)" (limpar)="onLimpar()" />
       </div>
     </div>
   </div>
 </section>
 
-<section class="portal-unidades" aria-labelledby="portal-unidades-title">
-  <div class="portal-unidades__container">
-    <h2 id="portal-unidades-title" class="portal-unidades__title">Resultado da pesquisa ( {{ totalUnidades()}} unidades)</h2>
+@if (!pesquisaRealizada()) {
+  <section class="portal-horarios" aria-labelledby="portal-horarios-title">
+    <div class="portal-horarios__container">
+      <div class="portal-horarios__content">
+        <div class="portal-horarios__info">
+          <h2 id="portal-horarios-title" class="portal-horarios__title">
+            <i class="pi pi-clock" aria-hidden="true"></i>
+            Horários de atendimento
+          </h2>
+          <p class="portal-horarios__desc">
+            Confira os horários dos Juizados Especiais, Unidades Judiciais e
+            Unidades Administrativas do Poder Judiciário do Estado da Bahia.
+          </p>
 
-    @if (carregando()) {
-      <div class="grid portal-unidades__grid" aria-busy="true" aria-live="polite">
-        @for (slot of skeletonSlots; track slot) {
-          <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
-            <div class="unidade-skeleton" aria-hidden="true">
-              <div class="unidade-skeleton__header">
-                <span class="skeleton-bar skeleton-bar--header"></span>
-              </div>
-              <div class="unidade-skeleton__body">
-                <span class="skeleton-bar skeleton-bar--title"></span>
-                <span class="skeleton-bar skeleton-bar--line"></span>
-                <span class="skeleton-bar skeleton-bar--line"></span>
-                <span class="skeleton-bar skeleton-bar--line skeleton-bar--short"></span>
-                <span class="skeleton-bar skeleton-bar--line"></span>
-                <span class="skeleton-bar skeleton-bar--btn"></span>
-              </div>
-            </div>
+          <div class="portal-horarios__grupo">
+            <h3 class="portal-horarios__grupo-titulo">Juizados Especiais</h3>
+            <p class="portal-horarios__grupo-item">Matutino - 7h às 13h</p>
+            <p class="portal-horarios__grupo-item">Vespertino - 13h às 19h</p>
           </div>
-        }
+
+          <div class="portal-horarios__grupo">
+            <h3 class="portal-horarios__grupo-titulo">Unidades Judiciais</h3>
+            <p class="portal-horarios__grupo-item">Entrância Inicial - 8h às 14h</p>
+            <p class="portal-horarios__grupo-item">Entrância Intermediária - 8h às 18h</p>
+            <p class="portal-horarios__grupo-item">Entrância Final - 8h às 18h</p>
+          </div>
+
+          <div class="portal-horarios__grupo">
+            <h3 class="portal-horarios__grupo-titulo">Unidades Administrativas</h3>
+            <p class="portal-horarios__grupo-item">8h às 18h</p>
+          </div>
+        </div>
+
+        <div class="portal-horarios__image">
+          <img src="/bg_portal_1.png" alt="Ilustração da justiça" />
+        </div>
       </div>
-    } @else if (unidadesVisiveis().length > 0) {
-      @for (grupo of gruposPorCidade(); track grupo.cidade) {
-        <div class="portal-unidades__cidade-container">
-          <div class="portal-unidades__cidade-header" (click)="toggleCidade(grupo.cidade)">
-            <h3 class="portal-unidades__cidade-titulo">{{ grupo.cidadeDisplay }}</h3>
-            <i class="pi pi-chevron-down portal-unidades__chevron"
-               [class.portal-unidades__chevron--collapsed]="cidadesColapsadas().has(grupo.cidade)"></i>
-          </div>
-          <div class="portal-unidades__cidade-body"
-               [class.portal-unidades__cidade-body--collapsed]="cidadesColapsadas().has(grupo.cidade)">
-            <div class="grid portal-unidades__grid">
-              @for (unidade of grupo.unidades; track unidade.id) {
-                <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
-                  <app-unidade-card [unidade]="unidade" />
+    </div>
+  </section>
+} @else {
+  <section class="portal-unidades" aria-labelledby="portal-unidades-title">
+    <div class="portal-unidades__container">
+      <h2 id="portal-unidades-title" class="portal-unidades__title">Resultado da Pesquisa ({{ totalUnidades() }} unidades)</h2>
+
+      @if (carregando()) {
+        <div class="grid portal-unidades__grid" aria-busy="true" aria-live="polite">
+          @for (slot of skeletonSlots; track slot) {
+            <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
+              <div class="unidade-skeleton" aria-hidden="true">
+                <div class="unidade-skeleton__header">
+                  <span class="skeleton-bar skeleton-bar--header"></span>
                 </div>
-              }
+                <div class="unidade-skeleton__body">
+                  <span class="skeleton-bar skeleton-bar--title"></span>
+                  <span class="skeleton-bar skeleton-bar--line"></span>
+                  <span class="skeleton-bar skeleton-bar--line"></span>
+                  <span class="skeleton-bar skeleton-bar--line skeleton-bar--short"></span>
+                  <span class="skeleton-bar skeleton-bar--line"></span>
+                  <span class="skeleton-bar skeleton-bar--btn"></span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else if (unidadesVisiveis().length > 0) {
+        @for (grupo of gruposPorCidade(); track grupo.cidade) {
+          <div class="portal-unidades__cidade-container">
+            <div class="portal-unidades__cidade-header" (click)="toggleCidade(grupo.cidade)">
+              <h3 class="portal-unidades__cidade-titulo">{{ grupo.cidadeDisplay }}</h3>
+              <i class="pi pi-chevron-down portal-unidades__chevron"
+                 [class.portal-unidades__chevron--collapsed]="cidadesColapsadas().has(grupo.cidade)"></i>
+            </div>
+            <div class="portal-unidades__cidade-body"
+                 [class.portal-unidades__cidade-body--collapsed]="cidadesColapsadas().has(grupo.cidade)">
+              <div class="grid portal-unidades__grid">
+                @for (unidade of grupo.unidades; track unidade.id) {
+                  <div class="col-12 md:col-6 lg:col-3 portal-unidades__cell">
+                    <app-unidade-card [unidade]="unidade" [termoBusca]="filtro().termo" />
+                  </div>
+                }
+              </div>
             </div>
           </div>
-        </div>
-      }
-
-      @if (unidadesVisiveis().length < totalUnidades()) {
-        <div class="portal-unidades__more">
-          <!-- <button
-            type="button"
-            pButton
-            label="Mais Unidades"
-            class="portal-unidades__more-btn"
-            (click)="carregarMais()"
-          ></button> -->
-        </div>
-      }
-    } @else {
-      <div class="empty-state">
-        <i class="pi pi-inbox"></i>
-        @if (filtro().termo) {
-          <p>Sua busca por <strong>{{ filtro().termo }}</strong> não retornou resultado. Por favor, tente realizar a busca por outra palavra.</p>
-        } @else {
-          <p>Nenhuma unidade encontrada.</p>
         }
-      </div>
-    }
-  </div>
-</section>
+
+        @if (unidadesVisiveis().length < totalUnidades()) {
+          <div class="portal-unidades__more">
+            <button
+              type="button"
+              pButton
+              label="Mais Unidades"
+              class="portal-unidades__more-btn"
+              (click)="carregarMais()"
+            ></button>
+          </div>
+        }
+      } @else {
+        <div class="empty-state">
+          <i class="pi pi-inbox"></i>
+          @if (filtro().termo) {
+            <p>Sua busca por <strong>{{ filtro().termo }}</strong> não retornou resultado. Por favor, tente realizar a busca por outra palavra.</p>
+          } @else {
+            <p>Nenhuma unidade encontrada.</p>
+          }
+        </div>
+      }
+    </div>
+  </section>
+}

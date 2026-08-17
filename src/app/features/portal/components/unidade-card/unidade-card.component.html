@@ -1,11 +1,9 @@
 <article class="unidade-card" [attr.aria-label]="'Unidade ' + unidade().nome">
   <header class="unidade-card__header">
-    <h3 class="unidade-card__comarca">{{ unidade().nome }}</h3>
+    <h3 class="unidade-card__comarca" [innerHTML]="unidade().nome | highlight:termoBusca()"></h3>
   </header>
 
   <div class="unidade-card__body">
-    <!-- <h4 class="unidade-card__nome">{{ unidade().nome }}</h4> -->
-
     <ul class="unidade-card__info">
       <li class="unidade-card__info-row">
         <div class="unidade-card__info-content">
@@ -23,23 +21,21 @@
       <li>
         <i class="pi pi-envelope" aria-hidden="true"></i>
         <span class="sr-only">Email:</span>
-        <a class="unidade-card__email" [href]="'mailto:' + unidade().email">{{ unidade().email }}</a>
+        <a class="unidade-card__email" [href]="'mailto:' + unidade().email" [innerHTML]="unidade().email | highlight:termoBusca()"></a>
       </li>
       <li>
         <i class="pi pi-map-marker" aria-hidden="true"></i>
         <span class="sr-only">Endereço:</span>
-        <span>
-          {{ unidade().endereco.logradouro }}<br />
-          CEP: {{ unidade().endereco.cep }}
-        </span>
+        <span [innerHTML]="unidade().endereco.logradouro | highlight:termoBusca()"></span><br />
+        <span>CEP: {{ unidade().endereco.cep }}</span>
       </li>
       <li>
         <i class="pi pi-clock" aria-hidden="true"></i>
-        <span>Funcionamento: {{ unidade().funcionamento }}</span>
+        <span>Funcionamento: <span [innerHTML]="unidade().funcionamento | highlight:termoBusca()"></span></span>
       </li>
       <li>
         <i class="pi pi-user" aria-hidden="true"></i>
-        <span>Magistrado responsável: {{ unidade().magistradoResponsavel }}</span>
+        <span>Magistrado responsável: <span [innerHTML]="unidade().magistradoResponsavel | highlight:termoBusca()"></span></span>
       </li>
     </ul>
 

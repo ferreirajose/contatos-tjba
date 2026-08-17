@@ -74,6 +74,7 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
   readonly mostrarToggle = input<boolean>(false);
   readonly hasIndex = input<boolean>(false);
   readonly consultar = output<FiltroUnidades>();
+  readonly limpar = output<void>();
   readonly fechar = output<void>();
 
   protected readonly areas: readonly AreaOption[] = [
@@ -158,6 +159,17 @@ export class ConsultaUnidadesComponent implements OnInit, OnDestroy {
 
   protected onSubmit(): void {
     this.consultar.emit(this.getFormValues());
+  }
+
+  protected onLimpar(): void {
+    this.form.reset({
+      termo: '',
+      areas: [],
+      localidades: [],
+      comarca: null,
+      unidade: null,
+    });
+    this.limpar.emit();
   }
 
   getFormValues(): FiltroUnidades {

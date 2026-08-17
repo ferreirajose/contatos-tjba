@@ -171,3 +171,9 @@
   cursor: not-allowed;
   text-decoration: none;
 }
+
+:host ::ng-deep .highlight {
+  background-color: #00FF1A;
+  padding: 0 2px;
+  border-radius: 2px;
+}

@@ -1,4 +1,5 @@
 
+import { delay, map } from 'rxjs/operators';
 import { Comarca, Unidade } from '../core/models/unidade.model';
 
 
@@ -16,7 +17,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
     funcionamento: '08:00h às 18:00h',
     magistradoResponsavel: 'Jose Henrique',
     balcaoVirtualUrl: 'https://balcaovirtual.tjba.jus.br/unidade/1',
-    agendaMagistradoUrl: '',
+    agendaMagistradoUrl: 'https://agenda.tjba.jus.br/magistrado/1',
     area: 'PRIMEIRO_GRAU',
     localidade: 'CAPITAL',
   },
@@ -39,7 +40,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
   },
   {
     id: '3',
-    nome: '16ª Vara do Consumidor',
+    nome: '16ª Vara do Sistema dos Juizados Especiais do Consumidor',
     comarca: 'salvador',
     telefone: '(71) 3372-7390',
     email: 'ssa-16vsje-consumo@tjba.jus.br',
@@ -124,7 +125,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
   },
   {
     id: '8',
-    nome: 'Extrajudicial de Vitória da Conquista',
+    nome: 'Serventia Extrajudicial de Vitória da Conquista',
     comarca: 'vitoria-da-conquista',
     telefone: '(77) 3421-9987',
     email: 'vconquista-extra@tjba.jus.br',
@@ -226,7 +227,7 @@ export const MOCK_UNIDADES: readonly Unidade[] = [
   },
   {
     id: '14',
-    nome: 'Extrajudicial de Barreiras',
+    nome: 'Serventia Extrajudicial de Barreiras',
     comarca: 'barreiras',
     telefone: '(77) 3611-2244',
     email: 'barreiras-extra@tjba.jus.br',

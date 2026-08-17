@@ -5,6 +5,7 @@ import {
   EventoAcesso,
 } from '../../../../core/services/analytics.service';
 import { TelefonePipe } from '../../../../shared/pipes/telefone.pipe';
+import { HighlightPipe } from '../../../../shared/pipes/highlight.pipe';
 
 interface AreaConfig {
   readonly label: string;
@@ -22,13 +23,14 @@ const AREA_CONFIG: Record<AreaInteresse, AreaConfig> = {
 @Component({
   selector: 'app-unidade-card',
   standalone: true,
-  imports: [TelefonePipe],
+  imports: [TelefonePipe, HighlightPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './unidade-card.component.html',
   styleUrl: './unidade-card.component.css',
 })
 export class UnidadeCardComponent {
   readonly unidade = input.required<Unidade>();
+  readonly termoBusca = input<string | null>(null);
 
   protected readonly areaConfig = computed(() => AREA_CONFIG[this.unidade().area]);
 

@@ -129,6 +129,16 @@
   outline-offset: 0;
 }
 
+.consulta__clear {
+  border-width: 1px;
+  border-style: solid;
+  padding: 0.65rem 1.75rem !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  border-radius: 6px !important;
+}
+
+
 .consulta__submit {
   background: var(--tjba-blue) !important;
   border: none !important;
@@ -200,7 +210,11 @@
   }
 
   .consulta__footer {
-    justify-content: flex-end;
+    flex-direction: column-reverse;
+  }
+
+  .consulta__footer button {
+    width: 100%;
   }
 }
 

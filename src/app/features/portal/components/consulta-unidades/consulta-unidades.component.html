@@ -100,9 +100,17 @@
 
     <div class="consulta__footer">
       <button
+        type="button"
+        pButton
+        label="Limpar Pesquisa"
+        class="consulta__clear"
+        [outlined]="true"
+        (click)="onLimpar()"
+      ></button>
+      <button
         type="submit"
         pButton
-        label="Pesquisa"
+        label="Pesquisar"
         class="consulta__submit"
       ></button>
     </div>
